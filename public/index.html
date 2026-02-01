@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Live estimate of jobs displaced by artificial intelligence - research-based statistical model using BLS data">
+  <meta name="theme-color" content="#000000">
+  
+  <title>AI JOB DISPLACEMENT COUNTER</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Status -->
+    <div class="status-bar">
+      <div class="status-indicator" id="status">
+        <span class="status-dot"></span>
+        <span class="status-text">CONNECTING</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <h1 class="title">JOBS DISPLACED BY AI</h1>
+      <p class="subtitle">SINCE JANUARY 2023 · UNITED STATES</p>
+    </header>
+
+    <!-- Main counter -->
+    <main class="counter-section">
+      <div class="counter-block">
+        <div class="counter-value" id="counter">
+          <span class="counter-digits">0</span>
+        </div>
+        
+        <div class="estimate-label">ESTIMATED</div>
+        
+        <!-- Rate display -->
+        <div class="rate-display">
+          <span class="rate-value" id="per-day">0</span>
+          <span class="rate-unit">per day</span>
+        </div>
+        
+        <!-- Range indicator -->
+        <div class="range-display">
+          <span class="range-label">Range:</span>
+          <span class="range-value" id="range-low">0</span>
+          <span class="range-sep">–</span>
+          <span class="range-value" id="range-high">0</span>
+          <span class="range-unit">daily</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Divider -->
+    <div class="page-divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">ATTRIBUTION BY COMPANY</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Company Contributions Section -->
+    <section class="companies-section">
+      <div class="companies-header">
+        <h2>DISPLACEMENT BY AI COMPANY</h2>
+        <p class="companies-subtitle">US AI Unicorns · Ranked by estimated contribution</p>
+      </div>
+      
+      <div class="companies-table-header">
+        <span class="col-rank">#</span>
+        <span class="col-name">COMPANY</span>
+        <span class="col-industry">CATEGORY</span>
+        <span class="col-share">SHARE</span>
+        <span class="col-jobs">EST. DISPLACED</span>
+      </div>
+      
+      <div class="companies-list" id="companies-list">
+        <div class="loading">Calculating displacement attribution...</div>
+      </div>
+      
+      <div class="companies-footer">
+        <span class="total-label">TOTAL:</span>
+        <span class="total-value" id="companies-total">0</span>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="manifesto-section">
+      <div class="manifesto-tag">#humanworkersmatter</div>
+      <h2 class="manifesto-title">The Displacement Has Already Begun</h2>
+      
+      <div class="manifesto-content">
+        <p>
+          We are witnessing the onset of the largest workforce displacement in human history. 
+          For the first time, our species shares the planet with something capable of outperforming 
+          us at cognitive tasks—and it's improving exponentially.
+        </p>
+        
+        <p>
+          The companies racing to build more capable AI infrastructure are moving faster than 
+          society can adapt. With current technology alone—not future breakthroughs—the majority 
+          of office work could be automated within a decade. That's <strong>over 60 million 
+          American jobs</strong> at stake.
+        </p>
+        
+        <p>
+          This isn't fear-mongering. It's arithmetic. The numbers on this page aren't projections 
+          of some distant future—they're estimates of displacement <em>already happening</em>, 
+          derived from real labor statistics.
+        </p>
+        
+        <p class="manifesto-cta">
+          We must be clear-eyed about this reality. Society needs to come together—workers, 
+          policymakers, and yes, technologists—to defend livelihoods, reimagine education, 
+          and build systems that allow humans to adapt and thrive alongside AI, not be 
+          discarded by it.
+        </p>
+      </div>
+      
+      <div class="manifesto-credits">
+        <div class="credit-line">
+          Dashboard made by <a href="https://www.linkedin.com/in/hansonyan" target="_blank" rel="noopener">Hanson Yan</a>
+        </div>
+        <div class="credit-line">
+          Check out: <a href="https://figwork.ai" target="_blank" rel="noopener">Figwork.ai</a>
+        </div>
+        <div class="credit-line">
+          Email me at: <a href="mailto:hanson.yan@triple3v.org">hanson.yan@triple3v.org</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <footer class="footer">
+      <div class="disclaimer">
+        <p class="disclaimer-text">
+          <strong>Statistical estimate.</strong> Total derived from BLS JOLTS layoff data × research-based 
+          AI exposure rates (IMF, McKinsey, Goldman Sachs). Company attribution uses multi-factor model: 
+          category allocation, market share, displacement directness, and market maturity.
+          <strong>This is a model, not census data.</strong>
+        </p>
+      </div>
+      
+      <div class="footer-links">
+        <a href="/api/methodology" target="_blank">Full Methodology</a>
+        <span>·</span>
+        <a href="/api/data/raw" target="_blank">Raw Data</a>
+        <span>·</span>
+        <a href="https://fred.stlouisfed.org/series/JTSLDL" target="_blank" rel="noopener">BLS/JOLTS Source</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Effects -->
+  <div class="ambient"></div>
+  
+  <script src="companies.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

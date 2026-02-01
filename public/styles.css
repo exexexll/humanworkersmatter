@@ -1,0 +1,713 @@
+/* 
+ * AI Job Displacement Counter
+ * Minimal, stark design
+ */
+
+:root {
+  --black: #0a0a0a;
+  --black-mid: #111111;
+  --gray-dark: #1a1a1a;
+  --gray-mid: #2a2a2a;
+  --gray-muted: #4a4a4a;
+  --gray-text: #888888;
+  --gray-light: #aaaaaa;
+  --white: #f0f0f0;
+  
+  --red-primary: #ff1a1a;
+  --red-dim: #cc3333;
+  --red-dark: #991111;
+  --red-glow: rgba(255, 26, 26, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--black);
+  color: var(--gray-light);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Status */
+.status-bar {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--gray-muted);
+  letter-spacing: 0.1em;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gray-muted);
+}
+
+.status-indicator.connected .status-dot {
+  background: var(--red-primary);
+  box-shadow: 0 0 8px var(--red-primary);
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.connected .status-text {
+  color: var(--red-dim);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--red-primary);
+  text-shadow: 0 0 30px var(--red-glow);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.7rem;
+  color: var(--gray-muted);
+  letter-spacing: 0.2em;
+  font-weight: 400;
+}
+
+/* Counter */
+.counter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.counter-block {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(180deg, var(--black-mid) 0%, var(--black) 100%);
+  border-radius: 4px;
+  border: 1px solid var(--gray-dark);
+  width: 100%;
+  max-width: 700px;
+}
+
+.counter-value {
+  margin-bottom: 1rem;
+}
+
+.counter-digits {
+  font-size: clamp(3rem, 12vw, 7rem);
+  font-weight: 800;
+  color: var(--red-primary);
+  letter-spacing: -0.02em;
+  text-shadow: 
+    0 0 40px var(--red-glow),
+    0 0 80px var(--red-glow);
+  line-height: 1;
+}
+
+.counter-digits .decimal {
+  font-size: 0.4em;
+  color: var(--red-dim);
+  opacity: 0.7;
+}
+
+.counter-value.flash .counter-digits {
+  text-shadow: 
+    0 0 60px rgba(255, 26, 26, 0.5),
+    0 0 120px var(--red-glow);
+}
+
+.estimate-label {
+  font-size: 0.6rem;
+  color: var(--gray-muted);
+  letter-spacing: 0.3em;
+  margin-bottom: 2rem;
+}
+
+/* Rate display */
+.rate-display {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 1rem 2rem;
+  background: var(--gray-dark);
+  border-radius: 3px;
+  display: inline-flex;
+}
+
+.rate-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--red-dim);
+}
+
+.rate-unit {
+  font-size: 0.8rem;
+  color: var(--gray-text);
+}
+
+/* Range display */
+.range-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--gray-muted);
+}
+
+.range-label {
+  color: var(--gray-text);
+}
+
+.range-value {
+  color: var(--gray-light);
+  font-weight: 500;
+}
+
+.range-sep {
+  color: var(--gray-muted);
+}
+
+.range-unit {
+  color: var(--gray-muted);
+}
+
+/* Footer */
+.footer {
+  margin-top: 3rem;
+  text-align: center;
+  max-width: 600px;
+}
+
+.disclaimer {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--gray-dark);
+  border-radius: 3px;
+  border-left: 2px solid var(--red-dark);
+}
+
+.disclaimer-text {
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--gray-text);
+}
+
+.disclaimer-text strong {
+  color: var(--gray-light);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.65rem;
+}
+
+.footer-links a {
+  color: var(--gray-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--red-dim);
+}
+
+.footer-links span {
+  color: var(--gray-dark);
+}
+
+/* Skynet triangle background - zoomed in */
+.ambient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Main striped triangle - positioned to show full Y */
+.ambient::before {
+  content: '';
+  position: absolute;
+  top: -30vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300vw;
+  height: 200vh;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(160, 20, 20, 0.28) 0px,
+    rgba(160, 20, 20, 0.28) 8px,
+    rgba(8, 8, 8, 0.97) 8px,
+    rgba(8, 8, 8, 0.97) 16px
+  );
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+/* Y-shaped dark cutout - matching Skynet logo exactly */
+.ambient::after {
+  content: '';
+  position: absolute;
+  top: -30vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300vw;
+  height: 200vh;
+  background: rgba(5, 5, 5, 0.98);
+  clip-path: polygon(
+    /* Start at center junction point */
+    50% 42%,
+    /* Left arm outer edge going up-left */
+    40% 0%,
+    /* Left arm inner edge */
+    42% 0%,
+    /* Back to center top of junction */
+    50% 40%,
+    /* Right arm inner edge */
+    58% 0%,
+    /* Right arm outer edge going up-right */
+    60% 0%,
+    /* Back to center junction */
+    50% 42%,
+    /* Stem right edge - perfectly vertical */
+    50.8% 42%,
+    50.8% 68%,
+    /* Stem bottom */
+    49.2% 68%,
+    /* Stem left edge - perfectly vertical */
+    49.2% 42%
+  );
+}
+
+/* Companies Section */
+.companies-section {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 3rem;
+  background: var(--black-mid);
+  border: 1px solid var(--gray-dark);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.companies-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--gray-dark);
+  text-align: center;
+}
+
+.companies-header h2 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--red-dim);
+  margin-bottom: 0.5rem;
+}
+
+.companies-subtitle {
+  font-size: 0.65rem;
+  color: var(--gray-muted);
+}
+
+.companies-table-header {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 70px 110px;
+  padding: 0.75rem 1rem;
+  background: var(--gray-dark);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--gray-text);
+  border-bottom: 1px solid var(--gray-mid);
+}
+
+.companies-list {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--red-dark) var(--black);
+}
+
+.companies-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.companies-list::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+.companies-list::-webkit-scrollbar-thumb {
+  background: var(--red-dark);
+  border-radius: 3px;
+}
+
+.companies-list::-webkit-scrollbar-thumb:hover {
+  background: var(--red-dim);
+}
+
+.company-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 70px 110px;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--gray-dark);
+  font-size: 0.7rem;
+  transition: background 0.15s;
+  align-items: center;
+}
+
+.company-row:hover {
+  background: rgba(160, 20, 20, 0.1);
+}
+
+.company-row:last-child {
+  border-bottom: none;
+}
+
+.col-rank {
+  color: var(--gray-muted);
+  font-weight: 500;
+  font-size: 0.65rem;
+}
+
+.col-name {
+  color: var(--gray-light);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 0.5rem;
+}
+
+.col-industry {
+  color: var(--gray-text);
+  font-size: 0.6rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 0.5rem;
+}
+
+.col-share {
+  color: var(--gray-muted);
+  font-size: 0.6rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.col-jobs {
+  color: var(--red-dim);
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Companies footer with total */
+.companies-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--gray-dark);
+  border-top: 1px solid var(--gray-mid);
+}
+
+.total-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--gray-text);
+}
+
+.total-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--red-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Top 3 companies highlighted */
+.company-row.top-1 .col-name,
+.company-row.top-1 .col-jobs {
+  color: var(--red-primary);
+}
+
+.company-row.top-2 .col-name,
+.company-row.top-2 .col-jobs {
+  color: #ff4444;
+}
+
+.company-row.top-3 .col-name,
+.company-row.top-3 .col-jobs {
+  color: #cc4444;
+}
+
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--gray-muted);
+  font-size: 0.75rem;
+}
+
+/* ============================================
+   PAGE DIVIDER
+   ============================================ */
+
+.page-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 4rem 0 2rem;
+  padding: 0 1rem;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red-dark), transparent);
+}
+
+.divider-text {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--gray-muted);
+  white-space: nowrap;
+}
+
+/* ============================================
+   MANIFESTO / CALL TO ACTION SECTION
+   ============================================ */
+
+.manifesto-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 3rem 0;
+  padding: 3rem 2.5rem;
+  background: linear-gradient(180deg, var(--black-mid) 0%, rgba(20, 5, 5, 0.95) 100%);
+  border: 1px solid var(--red-dark);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.manifesto-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--red-primary), transparent);
+}
+
+.manifesto-tag {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--red-primary);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
+}
+
+.manifesto-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--gray-light);
+  margin-bottom: 2rem;
+  line-height: 1.3;
+}
+
+.manifesto-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.manifesto-content p {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.manifesto-content strong {
+  color: var(--red-dim);
+  font-weight: 600;
+}
+
+.manifesto-content em {
+  color: var(--gray-light);
+  font-style: italic;
+}
+
+.manifesto-cta {
+  margin-top: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--gray-dark);
+  color: var(--gray-light) !important;
+}
+
+.manifesto-credits {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--gray-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.credit-line {
+  font-size: 0.75rem;
+  color: var(--gray-muted);
+}
+
+.credit-line a {
+  color: var(--gray-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.credit-line a:hover {
+  color: var(--gray-light);
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .counter-block {
+    padding: 2rem 1rem;
+  }
+  
+  .rate-display {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .rate-value {
+    font-size: 1.5rem;
+  }
+  
+  .disclaimer {
+    padding: 0.75rem 1rem;
+  }
+  
+  .footer-links {
+    flex-wrap: wrap;
+  }
+  
+  .companies-table-header,
+  .company-row {
+    grid-template-columns: 30px 1fr 55px 85px;
+  }
+  
+  .col-industry {
+    display: none;
+  }
+  
+  .companies-list {
+    max-height: 300px;
+  }
+  
+  .page-divider {
+    margin: 2.5rem 0 1.5rem;
+    gap: 1rem;
+  }
+  
+  .manifesto-section {
+    padding: 2rem 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  .manifesto-tag {
+    font-size: 1rem;
+  }
+  
+  .manifesto-title {
+    font-size: 1.1rem;
+  }
+  
+  .manifesto-content p {
+    font-size: 0.8rem;
+  }
+  
+  .action-items {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .action-item {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Selection */
+::selection {
+  background: var(--red-dark);
+  color: var(--black);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .status-dot {
+    animation: none;
+  }
+}
+
