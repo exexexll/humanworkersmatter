@@ -626,75 +626,250 @@ body {
   text-decoration: underline;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* Responsive - Tablet */
+@media (max-width: 768px) {
   .container {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   
+  .header {
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+  }
+  
+  .companies-section {
+    margin-top: 2rem;
+  }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 600px) {
+  body {
+    align-items: flex-start;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  
+  .container {
+    padding: 1rem;
+    padding-top: 3.5rem;
+  }
+  
+  /* Status - move to top right on mobile */
+  .status-bar {
+    top: 1rem;
+    left: 1rem;
+  }
+  
+  .status-indicator {
+    font-size: 0.6rem;
+  }
+  
+  /* Header */
+  .header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+  }
+  
+  .subtitle {
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+  }
+  
+  /* Counter */
   .counter-block {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  .counter-digits {
+    font-size: 2.8rem;
+  }
+  
+  .counter-digits .decimal {
+    font-size: 0.35em;
+  }
+  
+  .estimate-label {
+    font-size: 0.5rem;
+    margin-bottom: 1.5rem;
   }
   
   .rate-display {
-    padding: 0.75rem 1.5rem;
+    padding: 0.6rem 1.2rem;
   }
   
   .rate-value {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   
-  .disclaimer {
-    padding: 0.75rem 1rem;
+  .rate-unit {
+    font-size: 0.65rem;
   }
   
-  .footer-links {
-    flex-wrap: wrap;
+  .range-display {
+    font-size: 0.6rem;
+    gap: 0.3rem;
+  }
+  
+  /* Divider */
+  .page-divider {
+    margin: 2rem 0 1rem;
+    gap: 0.75rem;
+  }
+  
+  .divider-text {
+    font-size: 0.5rem;
+  }
+  
+  /* Companies Section */
+  .companies-section {
+    margin-top: 1.5rem;
+  }
+  
+  .companies-header {
+    padding: 1rem;
+  }
+  
+  .companies-header h2 {
+    font-size: 0.7rem;
+  }
+  
+  .companies-subtitle {
+    font-size: 0.55rem;
+  }
+  
+  .companies-table-header {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.5rem;
   }
   
   .companies-table-header,
   .company-row {
-    grid-template-columns: 30px 1fr 55px 85px;
+    grid-template-columns: 28px 1fr 50px 70px;
   }
   
   .col-industry {
     display: none;
   }
   
+  .company-row {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.6rem;
+  }
+  
+  .col-jobs {
+    font-size: 0.6rem;
+  }
+  
   .companies-list {
-    max-height: 300px;
+    max-height: 280px;
   }
   
-  .page-divider {
-    margin: 2.5rem 0 1.5rem;
-    gap: 1rem;
+  .companies-footer {
+    padding: 0.75rem 1rem;
+    font-size: 0.6rem;
   }
   
+  /* Manifesto */
   .manifesto-section {
-    padding: 2rem 1.5rem;
-    margin: 2rem 0;
+    padding: 1.5rem 1rem;
+    margin: 1.5rem 0;
   }
   
   .manifesto-tag {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
   }
   
   .manifesto-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .manifesto-content {
+    gap: 1rem;
   }
   
   .manifesto-content p {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
   }
   
-  .action-items {
-    flex-direction: column;
+  .manifesto-cta {
+    padding-top: 1rem;
+  }
+  
+  .manifesto-credits {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
     gap: 0.5rem;
   }
   
-  .action-item {
-    width: 100%;
-    text-align: center;
+  .credit-line {
+    font-size: 0.65rem;
+  }
+  
+  /* Footer */
+  .disclaimer {
+    padding: 0.75rem 1rem;
+  }
+  
+  .disclaimer-text {
+    font-size: 0.6rem;
+    line-height: 1.5;
+  }
+  
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.6rem;
+  }
+  
+  .footer-links span {
+    display: none;
+  }
+  
+  .footer-links a {
+    padding: 0.3rem 0.5rem;
+    background: var(--gray-dark);
+    border-radius: 3px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+  .container {
+    padding: 0.75rem;
+    padding-top: 3rem;
+  }
+  
+  .title {
+    font-size: 1rem;
+  }
+  
+  .counter-digits {
+    font-size: 2.2rem;
+  }
+  
+  .companies-table-header,
+  .company-row {
+    grid-template-columns: 24px 1fr 45px 60px;
+  }
+  
+  .manifesto-tag {
+    font-size: 0.8rem;
+  }
+  
+  .manifesto-title {
+    font-size: 0.9rem;
   }
 }
 
